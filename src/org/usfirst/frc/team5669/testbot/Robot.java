@@ -7,6 +7,8 @@
 
 package org.usfirst.frc.team5669.testbot;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Spark;
@@ -21,11 +23,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	private DifferentialDrive m_robotDrive
-			= new DifferentialDrive(new Spark(0), new Spark(1));
-	private Joystick m_stick = new Joystick(0);
-	private Timer m_timer = new Timer();
-
+	TalonSRX testTalon = new TalonSRX(4);
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -39,8 +37,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_timer.reset();
-		m_timer.start();
 	}
 
 	/**
@@ -48,12 +44,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-		// Drive for 2 seconds
-		if (m_timer.get() < 2.0) {
-			m_robotDrive.arcadeDrive(0.5, 0.0); // drive forwards half speed
-		} else {
-			m_robotDrive.stopMotor(); // stop robot
-		}
 	}
 
 	/**
@@ -68,7 +58,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
-		m_robotDrive.arcadeDrive(m_stick.getY(), m_stick.getX());
 	}
 
 	/**
@@ -76,5 +65,6 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		System.out.println(testTalon.getSensorCollection().getQuadraturePosition());
 	}
 }
